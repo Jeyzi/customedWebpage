@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Open Flask App",
+  "version": "1.0",
+  "description": "Open Flask App when Chrome starts.",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

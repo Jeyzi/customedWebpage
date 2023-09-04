@@ -8,27 +8,48 @@ body, html {
     background-size: cover;
 }
 
-.container {
+.greet-container {
     align-items: center;
     display: flex;
     justify-content: center;
-    height: 100vh;
+    height: 40vh;
     width: 100%;
 }
 
-.centered-element {
+.quote-container {
+    height: 60vh;
+    width: 100%;
+}
+
+.bg-glass {
     align-items: center;
-    display: flex;
     justify-content: center;
     height: 20vh;
-    width: 100%;
     background: rgba( 255, 255, 255, 0.25 );
     backdrop-filter: blur( 2.5px );
     -webkit-backdrop-filter: blur( 2.5px );
-    border-radius: 10px;
 }
 
-#greet {
+.greet {
+    width: 80%;
+    display: flex;
+}
+
+.qbox {
+    width: 60%;
+}
+
+.head {
+    height: 5vh;
+    display: flex;
+}
+
+#greeting {
     font-size: 4.5rem;
     font-family: sans serif;
+}
+
+#today_quote {
+    font-siz: 2.5rem;
+    font-family: 'Nanum Gothic', serif;
 }
