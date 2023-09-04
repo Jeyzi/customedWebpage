@@ -8,6 +8,16 @@ body, html {
     background-size: cover;
 }
 
+p {
+    align-text: center;
+}
+
+hr {
+    margin: auto !important;
+    max-width: 65px;
+
+}
+
 .greet-container {
     align-items: center;
     display: flex;
@@ -33,23 +43,42 @@ body, html {
 .greet {
     width: 80%;
     display: flex;
+    border-radius: 20px;
 }
 
 .qbox {
     width: 60%;
+    border-radius: 5px;
 }
 
 .head {
     height: 5vh;
     display: flex;
+    place-items: flex-end;
+    font-style: italic;
+    place-content: start;
+}
+
+.centered-content {
+    display: grid;
+    place-items: center;
 }
 
 #greeting {
     font-size: 4.5rem;
     font-family: sans serif;
 }
+#quote_title {
+    margin-left : 10px;
+}
 
 #today_quote {
-    font-siz: 2.5rem;
     font-family: 'Nanum Gothic', serif;
+    margin-top: 1.5rem;
+    margin-left:
+}
+#quote_author {
+    text-align-last: end;
+    margin-right: 20px;
+    margin-top: revert;
 }
