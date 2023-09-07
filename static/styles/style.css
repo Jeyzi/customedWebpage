@@ -27,7 +27,12 @@ hr {
 }
 
 .quote-container {
-    height: 60vh;
+    height: 20vh;
+    width: 100%;
+}
+
+.nav-container {
+    height: 40vh;
     width: 100%;
 }
 
@@ -62,6 +67,10 @@ hr {
 .centered-content {
     display: grid;
     place-items: center;
+}
+
+.card {
+    --bs-card-bg: rgba(255, 255, 255, 0.15) !important;
 }
 
 #greeting {

@@ -3,6 +3,7 @@ import random
 import datetime
 import requests
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -11,9 +12,8 @@ IMAGE_FOLDER = 'static/images/'
 app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 
 # List all image filenames in the folder
-# image_filenames = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'bg6.jpg', 'bg7.jpg', 'bg8.jpg', 'bg9.jpg', 'bg10.jpg']
-# image_filenames = [filename for filename in os.listdir(app.config['IMAGE_FOLDER']) if filename.endswith(('.jpg', '.jpeg', '.png'))]
 image_filenames = os.listdir(IMAGE_FOLDER)
+
 
 def get_greeting():
     current_time = datetime.datetime.now().time()
