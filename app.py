@@ -3,7 +3,6 @@ import random
 import datetime
 import requests
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -13,7 +12,6 @@ app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 
 # List all image filenames in the folder
 image_filenames = os.listdir(IMAGE_FOLDER)
-
 
 def get_greeting():
     current_time = datetime.datetime.now().time()
@@ -30,7 +28,6 @@ def get_quote():
     response = requests.get(api_url)
     data = response.json()
     quote = data[0]['q']
-    author = data[0]['a']
     return quote
 
 def get_author():
@@ -42,7 +39,6 @@ def get_author():
 
 @app.route('/')
 def index():
-    # Choose a random image from the list
     random_image = random.choice(image_filenames)
     image_path = os.path.join(app.config['IMAGE_FOLDER'], random_image)
     greeting = get_greeting()

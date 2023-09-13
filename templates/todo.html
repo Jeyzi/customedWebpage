@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block title %}To-Do List - My App{% endblock %}
+
+{% block content %}
+<h1>To-Do List</h1>
+<form method="POST" action="/add">
+    <input type="text" name="task" placeholder="Add a new task" required>
+    <button type="submit">Add</button>
+</form>
+<ul>
+    {% for todo in todos %}
+        <li>
+            {{ todo.content }}
+            <form method="POST" action="/delete/{{ todo.id }}">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
