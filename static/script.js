@@ -27,7 +27,6 @@ function addTask() {
   }
 }
 
-//document.getElementById("addBtn").addEventListener("click", newElement);
 
 // Create a "close" button and append it to each list item
 var myNodelist = document.getElementsByTagName("LI");
@@ -62,12 +61,40 @@ function closeModal() {
     document.getElementById("exampleModal").style.display = "none";
 }
 
-function saveTasks() {
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    var inputValue = document.getElementById("taskInput").value;
-    tasks.push(inputValue);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+document.getElementById('saveToLocalStorage').addEventListener('click', function () {
 
-    taskInput.value = "";
-    closeModal();
+    var inputValue = document.getElementById("taskInput").value;
+
+    if (typeof(Storage) !== "undefined") {
+        var items = JSON.parse(localStorage.getItem("items")) || [];
+
+        items.push(inputValue);
+        localStorage.setItem("tasks", JSON.stringify(items));
+
+
+        inputValue.value = "";
+
+        displayItemsFromLocalStorage();
+    } else {
+            // Local storage is not supported
+        alert("Sorry, your browser does not support local storage.");
+    }
+});
+
+    // Function to display items from local storage
+function displayItemsFromLocalStorage() {
+    var items = JSON.parse(localStorage.getItem('items')) || [];
+    var itemList = document.getElementById('taskList');
+
+    // Clear the current list
+    itemList.innerHTML = '';
+
+    // Display each item in the list
+    items.forEach(function (item) {
+        var li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = item;
+        itemList.appendChild(li);
+    });
 }
+
