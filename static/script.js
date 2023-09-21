@@ -1,100 +1,69 @@
+// Function to create a new task element with a close/delete button
+        function createTaskElement(taskText) {
+            const listItem = document.createElement("li");
+            listItem.textContent = taskText;
 
-// Create a new list item when clicking on the "Add" button
-function addTask() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("taskInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
+            // Create a close button for the task
+            const closeBtn = document.createElement("span");
+            closeBtn.textContent = "\u00D7";
+            closeBtn.className = "close";
+            closeBtn.addEventListener("click", function() {
+                listItem.remove(); // Remove the task when the close button is clicked
+                saveTasksToLocalStorage();
+            });
 
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("taskList").appendChild(li);
-  }
-  document.getElementById("taskInput").value = "";
+            // Append the close button to the task
+            listItem.appendChild(closeBtn);
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
+            return listItem;
+        }
 
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
+        // Function to add a task to the list
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const taskList = document.getElementById("taskList");
+            const taskText = taskInput.value.trim();
 
+            if (taskText !== "") {
+                const listItem = createTaskElement(taskText);
+                taskList.appendChild(listItem);
+                taskInput.value = "";
+                saveTasksToLocalStorage();
+            }
+        }
 
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+        // Event listener to add a task when the "Add" button is clicked
+        document.querySelector(".addBtn").addEventListener("click", addTask);
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
+        // Function to save tasks to local storage
+        function saveTasksToLocalStorage() {
+            const taskList = document.getElementById("taskList");
+            const tasks = [];
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
+            // Get all task text from list items
+            taskList.querySelectorAll("li").forEach((li) => {
+                tasks.push(li.textContent);
+            });
 
-function closeModal() {
-    document.getElementById("exampleModal").style.display = "none";
-}
+            // Store tasks in local storage as a JSON string
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
 
-document.getElementById('saveToLocalStorage').addEventListener('click', function () {
+        // Event listener to save tasks when the "Save Changes" button is clicked
+        document.getElementById("saveToLocalStorage").addEventListener("click", saveTasksToLocalStorage);
 
-    var inputValue = document.getElementById("taskInput").value;
+        // Function to load tasks from local storage
+        function loadTasksFromLocalStorage() {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    if (typeof(Storage) !== "undefined") {
-        var items = JSON.parse(localStorage.getItem("items")) || [];
+            // Populate the task list with the loaded tasks
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            tasks.forEach((taskText) => {
+                const listItem = createTaskElement(taskText);
+                taskList.appendChild(listItem);
+            });
+        }
 
-        items.push(inputValue);
-        localStorage.setItem("tasks", JSON.stringify(items));
-
-
-        inputValue.value = "";
-
-        displayItemsFromLocalStorage();
-    } else {
-            // Local storage is not supported
-        alert("Sorry, your browser does not support local storage.");
-    }
-});
-
-    // Function to display items from local storage
-function displayItemsFromLocalStorage() {
-    var items = JSON.parse(localStorage.getItem('items')) || [];
-    var itemList = document.getElementById('taskList');
-
-    // Clear the current list
-    itemList.innerHTML = '';
-
-    // Display each item in the list
-    items.forEach(function (item) {
-        var li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.textContent = item;
-        itemList.appendChild(li);
-    });
-}
-
+        // Load tasks from local storage when the page loads
+        loadTasksFromLocalStorage();
