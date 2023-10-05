@@ -44,7 +44,7 @@
             <h5 class="card-title">Let's get the day started!</h5>
             <p class="card-text">Write down your tasks and be productive :)</p>
             <!-- Button trigger modal -->
-            <button id="openModal" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button id="openModal" type="button" onclick="loadTask()" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
               To-Do List
             </button>
 
@@ -59,7 +59,7 @@
                   <div class="modal-body">
                       <div class="row1">
                          <input type="text" id="taskInput" placeholder="Write your task..">
-                         <button class="addBtn">Add</button>
+                         <button class="addBtn" onclick="addTask()">Add</button>
                       </div>
                       <div>
                          <ul id="taskList"></ul>
@@ -67,7 +67,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="saveToLocalStorage" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
                   </div>
                 </div>
               </div>

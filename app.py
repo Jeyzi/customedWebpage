@@ -1,7 +1,6 @@
-import os
-import random
-import datetime
-import requests
+import os, random, datetime, requests,openpyxl
+import pandas as pd
+import matplotlib.pyplot as plt
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -37,6 +36,9 @@ def get_author():
     author = data[0]['a']
     return author
 
+# def generate_charts():
+
+
 @app.route('/')
 def index():
     random_image = random.choice(image_filenames)
@@ -45,6 +47,7 @@ def index():
     quote = "\"" + get_quote() + "\""
     author = "~" + get_author()
     return render_template('index.html', image_path=image_path, greeting=greeting, quote=quote, author=author)
+
 
 
 if __name__ == '__main__':
