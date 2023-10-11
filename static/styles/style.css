@@ -143,17 +143,18 @@ ul li::before {
     left: 8px;
 }
 
-ul li.checked {
+ul li span.task.completed {
     color: #555;
     text-decoration: line-through;
 }
 
-ul li.checked::before {
+ul li.completed::before {
     background-image: url();
 }
 
-ul li span {
+ul li span.delete {
     position: absolute;
+    border-radius: 50%;
     right: 0;
     top: 5px;
     width: 40px;
@@ -163,7 +164,7 @@ ul li span {
     line-height: 40px;
     text-align: center;
 }
-ul li span:hover {
-    background: #e3e3e3;
 
+ul li span.delete:hover {
+    background: #e3e3e3;
 }

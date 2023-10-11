@@ -4,15 +4,23 @@ import datetime
 import requests
 from flask import Flask, request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'  # Use SQLite database
+# Define the path to the migrations directory
+MIGRATION_DIR = os.path.join(app.root_path, 'migrations')
+
+# Configure the database URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+
 db = SQLAlchemy(app)
+migrate = Migrate(app, db, directory=MIGRATION_DIR)
+
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.String(255), nullable=False)
+    completed = db.Column(db.Boolean, default=False)
 
 # Define a folder containing your images
 IMAGE_FOLDER = 'static/images/'
@@ -45,9 +53,6 @@ def get_author():
     author = data[0]['a']
     return author
 
-# def generate_charts():
-
-
 @app.route('/')
 def index():
     random_image = random.choice(image_filenames)
@@ -55,27 +60,38 @@ def index():
     greeting = get_greeting()
     quote = "\"" + get_quote() + "\""
     author = "~" + get_author()
-    return render_template('index.html', image_path=image_path, greeting=greeting, quote=quote, author=author)
+    tasks = Task.query.all()
+    return render_template('index.html', image_path=image_path, greeting=greeting, quote=quote, author=author, tasks=tasks)
+
 
 @app.route('/add_task', methods=['POST'])
 def addTask():
     data = request.get_json()
-    if 'text' in data:
-        task_text = data['text']
-        new_task = Task(text=task_text)
-        db.session.add(new_task)
-        db.session.commit()
-        return jsonify(success=True)
-    return jsonify(success=False)
-@app.route('/get_tasks')
-def loadTask():
-    tasks = Task.query.all()
-    task_texts = [task.text for task in tasks]
-    return jsonify(task_texts)
 
-# @app.route('/update_tasks', methods=['POST'])
-# def saveData():
+    if 'content' in data:
+        task_content = data['content']
+        if task_content.strip():  # Check if the content is not empty or only whitespace
+            new_task = Task(content=task_content)
+            db.session.add(new_task)
+            db.session.commit()
+            return jsonify(success=True)
+        else:
+            return jsonify(success=False, error='Task content cannot be empty or whitespace')
+    return jsonify(success=False, error='Content field not found in request data')
 
+@app.route('/save_tasks', methods=['POST'])
+def saveTasks():
+    data = request.get_json()
+    # Clear existing tasks in the database
+    Task.query.delete()
+    if data:
+        for task_data in data:
+            task_content = task_data.get('content')
+            task_completed = task_data.get('completed')
+            new_task = Task(content=task_content, completed=task_completed)
+            db.session.add(new_task)
+    db.session.commit()
+    return jsonify(success=True)
 
 
 if __name__ == '__main__':
