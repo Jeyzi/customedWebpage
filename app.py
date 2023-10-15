@@ -28,6 +28,21 @@ app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 
 # List all image filenames in the folder
 image_filenames = os.listdir(IMAGE_FOLDER)
+@app.route('/get_current_time')
+def get_current_time():
+    # city = 'kuwait'
+    # api_url = 'https://api.api-ninjas.com/v1/worldtime?city={}'.format(city)
+    # response = requests.get(api_url, headers={'X-Api-Key': '29MSEQhXZIn1y4Kbs/foNg==qYLgyJrXgU3j9nUv'})
+    # data = response.json()
+    # current_time = data.get("datetime", "N/A")
+    current_time = datetime.datetime.now().strftime('%H:%M:%S')
+    current_date = datetime.datetime.now().strftime('%Y-%m-%d')
+    return jsonify(current_time=current_time, current_date=current_date)
+
+def get_date():
+    current_date = datetime.datetime.now().strftime('%B %d, %Y')
+    return current_date
+
 
 def get_greeting():
     current_time = datetime.datetime.now().time()
@@ -61,7 +76,10 @@ def index():
     quote = "\"" + get_quote() + "\""
     author = "~" + get_author()
     tasks = Task.query.all()
-    return render_template('index.html', image_path=image_path, greeting=greeting, quote=quote, author=author, tasks=tasks)
+    time = get_current_time()
+    date = get_date()
+    return render_template('index.html', image_path=image_path, greeting=greeting,
+                           quote=quote, author=author, tasks=tasks, time=time, date=date)
 
 
 @app.route('/add_task', methods=['POST'])

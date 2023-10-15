@@ -20,28 +20,35 @@
 </style>
 </head>
 <body>
-    <div class="greet-container">
-        <div class="bg-glass greet">
-            <p id="greeting"><strong>{{ greeting }}</strong></p>
+<div class="container-fluid">
+    <div class="centered">
+        <div class="card centered">
+            <div class="card-body">
+                <p id="current-time" class="card-text">{{ time }}</p>
+                <h3 id="current-date" class="centered-content"> {{ date }} </h3>
+            </div>
         </div>
     </div>
-    <div class="quote-container">
-        <div class="centered-content">
-            <div class="bg-glass qbox head">
-                <div class="text-center">
-                    <p id="quote_title">Here's your daily dose of wisdom..</p>
-                </div>
+    <div class="centered">
+        <div id="greeting-container" class="card centered">
+    <!--        <div class="bg-glass greet">-->
+                <p id="greeting"><strong>{{ greeting }}</strong></p>
+    <!--        </div>-->
+        </div>
+    </div>
+    <div class="centered">
+        <div class="card centered">
+            <div class="text-center">
+                <p id="quote_title">Here's your daily dose of wisdom..</p>
             </div>
-            <div class="bg-glass text-center qbox">
-                <p id="today_quote">{{ quote }}</p>
-                <hr>
-                <p id="quote_author">{{ author }}</p>
-            </div>
+            <p id="today_quote">{{ quote }}</p>
+            <hr>
+            <p id="quote_author">{{ author }}</p>
         </div>
     </div>
     <div class="nav-container centered-content">
         <div class="card" style="width: 18rem;">
-          <div class="card-body centered-content">
+          <div class="card-body centered-content bg-glass">
             <h5 class="card-title">Let's get the day started!</h5>
             <p class="card-text">Write down your tasks and be productive :)</p>
             <!-- Button trigger modal -->
@@ -75,11 +82,28 @@
           </div>
         </div>
     </div>
+</div>
     <script src="/static/script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script>
+        function updateCurrentTime() {
+            // Make an AJAX request to your Flask endpoint to get the current time
+            fetch('/get_current_time')
+                .then(response => response.json())
+                .then(data => {
+                    const currentTimeElement = document.getElementById('current-time');
+                    currentTimeElement.textContent = data.current_time;
+                });
+        }
+
+        // Update the current time every second
+        setInterval(updateCurrentTime, 1000);
+
+        // Initial update
+        updateCurrentTime();
+
         // Function to add a new task
         function addTask() {
             var taskInput = document.getElementById('taskInput');

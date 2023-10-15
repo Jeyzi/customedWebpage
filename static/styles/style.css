@@ -8,10 +8,6 @@ body, html {
     background-size: cover;
 }
 
-p {
-    align-text: center;
-}
-
 hr {
     margin: auto !important;
     max-width: 65px;
@@ -27,7 +23,7 @@ hr {
 }
 
 .quote-container {
-    height: 20vh;
+    height: 15vh;
     width: 100%;
 }
 
@@ -45,6 +41,11 @@ hr {
     -webkit-backdrop-filter: blur( 2.5px );
 }
 
+.card-text {
+    align-items: center;
+    justify-content: center;
+}
+
 .greet {
     width: 80%;
     display: flex;
@@ -54,6 +55,7 @@ hr {
 .qbox {
     width: 60%;
     border-radius: 5px;
+    height: fit-content;
 }
 
 .head {
@@ -68,9 +70,31 @@ hr {
     display: grid;
     place-items: center;
 }
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
 
 .card {
     --bs-card-bg: rgba(255, 255, 255, 0.15) !important;
+    width: fit-content;
+}
+
+#current-time {
+    display: flex;
+    font-size: 48px;
+    color: white;
+}
+
+#current-date {
+    display: flex;
+    font-size: 24px;
+    color: white;
+}
+#greeting-container {
+    width: 50rem;
 }
 
 #greeting {
