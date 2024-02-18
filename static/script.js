@@ -3,10 +3,12 @@ function saveChanges() {
     var tasks = [];
     var taskElements = taskList.getElementsByTagName('li');
     for (var i = 0; i < taskElements.length; i++) {
-        var taskText = taskElements[i].getElementsByClassName('task')[0].textContent;
-        var isCompleted = taskElements[i].getElementsByClassName('task')[0].classList.contains('completed');
+        var listItem = taskElements[i];
+        var taskText = listItem.querySelector('.task').textContent;
+        var isCompleted = listItem.classList.contains('completed');
         tasks.push({ content: taskText, completed: isCompleted });
     }
+
     fetch('/save_tasks', {
         method: 'POST',
         headers: {
@@ -21,6 +23,7 @@ function saveChanges() {
         }
     });
 }
+
 
 
 

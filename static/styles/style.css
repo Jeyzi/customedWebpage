@@ -86,12 +86,14 @@ hr {
     display: flex;
     font-size: 48px;
     color: white;
+    font-family: 'Red Hat Display', sans-serif;
 }
 
 #current-date {
     display: flex;
     font-size: 24px;
     color: white;
+    font-family: 'Red Hat Display', sans-serif;
 }
 #greeting-container {
     width: 50rem;
@@ -154,26 +156,31 @@ ul li {
     position: relative;
 }
 
+li:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
 ul li::before {
     content: '';
     position: absolute;
     height: 28px;
     width: 28px;
     border-radius: 50%;
-    background-image: url();
+    background-image: url('icons8-circle-50.png');
     background-size: cover;
     background-position: center;
     top: 12px;
     left: 8px;
 }
 
+ul li.completed::before {
+    background-image: url('icons8-check-30.png');
+}
+
 ul li span.task.completed {
     color: #555;
     text-decoration: line-through;
-}
-
-ul li.completed::before {
-    background-image: url();
 }
 
 ul li span.delete {

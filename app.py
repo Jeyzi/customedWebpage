@@ -35,7 +35,7 @@ def get_current_time():
     # response = requests.get(api_url, headers={'X-Api-Key': '29MSEQhXZIn1y4Kbs/foNg==qYLgyJrXgU3j9nUv'})
     # data = response.json()
     # current_time = data.get("datetime", "N/A")
-    current_time = datetime.datetime.now().strftime('%H:%M:%S')
+    current_time = datetime.datetime.now().strftime('%H:%M')
     current_date = datetime.datetime.now().strftime('%Y-%m-%d')
     return jsonify(current_time=current_time, current_date=current_date)
 
@@ -88,28 +88,37 @@ def addTask():
 
     if 'content' in data:
         task_content = data['content']
-        if task_content.strip():  # Check if the content is not empty or only whitespace
+        if task_content.strip():
             new_task = Task(content=task_content)
             db.session.add(new_task)
             db.session.commit()
-            return jsonify(success=True)
+            return jsonify(success=True, task={"id": new_task.id, "content": new_task.content, "completed": new_task.completed})
         else:
             return jsonify(success=False, error='Task content cannot be empty or whitespace')
     return jsonify(success=False, error='Content field not found in request data')
 
+
 @app.route('/save_tasks', methods=['POST'])
 def saveTasks():
     data = request.get_json()
-    # Clear existing tasks in the database
     Task.query.delete()
+
     if data:
         for task_data in data:
             task_content = task_data.get('content')
             task_completed = task_data.get('completed')
             new_task = Task(content=task_content, completed=task_completed)
             db.session.add(new_task)
+
     db.session.commit()
     return jsonify(success=True)
+
+
+@app.route('/get_tasks', methods=['GET'])
+def getTasks():
+    tasks = Task.query.all()
+    task_list = [{"id": task.id, "content": task.content, "completed": task.completed} for task in tasks]
+    return jsonify(tasks=task_list)
 
 
 if __name__ == '__main__':
